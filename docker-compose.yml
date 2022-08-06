@@ -1,0 +1,15 @@
+version: '3'
+services:
+  wiremock:
+    image: 'wiremock/wiremock'
+    ports:
+      - 8080:8080
+    volumes:
+      - ./conf:/home/wiremock
+    
+  converter:
+    build:
+      context: ./converter
+    volumes:
+      - ./converter:/work
+

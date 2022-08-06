@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mappings</title>
+    <style>
+        *{margin:0; padding:0;}
+        .mapping {
+            display: flex;
+            flex-direction: column;
+        }
+        .box {
+        }
+        h3,h4{margin: 1em 0.5em;}
+        h3 {border-bottom: 1px solid black;}
+        h4 {text-decoration: underline;}
+        table {
+            border-collapse: collapse;
+            margin: 0.5em;
+        }
+        th,td {
+            text-align: left;
+            border: 1px solid black;
+            padding: 0.25em;
+        }
+        th {
+            background-color: #eeffee;
+        }
+    </style>
+</head>
+<body>
+
+{% for mapping_item in mappings %}
+    <h3>{% for key, value in mapping_item.request.items() %}{{ value }} {% endfor %}</h3>
+    <div class="mapping">
+        <div class="box">
+            <h4>Request</h4>
+            <table>
+            {% for key, value in mapping_item.request.items() recursive %}
+                <tr>
+                    <th>{{key}}</th>
+                    <td>
+                        {% if value is mapping %}                                                         
+                            <table>
+                                {{loop(value.items())}}
+                            </table>
+                        {% else %}
+                            {{value}}
+                        {% endif %}     
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="box">
+            <h4>Response</h4>
+            <table>
+            {% for key, value in mapping_item.response.items() recursive %}
+                <tr>
+                    <th>{{key}}</th>
+                    <td>
+                        {% if value is mapping %}                                                         
+                            <table>
+                                {{loop(value.items())}}
+                            </table>
+                        {% else %}
+                            {{value}}
+                        {% endif %}     
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endfor %}
+    
+</body>
+</html>
